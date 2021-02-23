@@ -9,7 +9,7 @@ const service = new StudentService();
 class StudentController {
   async index(request, response) {
     response.json(await service.get())
-    };
+  };
   async show(request, response){
     const { id } = request.params;
     response.json(await service.show(id))
