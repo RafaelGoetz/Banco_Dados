@@ -1,4 +1,3 @@
-import Formatter from '../utils/Formatter';
 import StudentService from '../services/StudentServices'
 import {Sequelize, QueryTypes } from "sequelize";
 import databaseConfig from "../../config/database";

@@ -9,29 +9,24 @@ export default class ProfessorService extends BaseServices {
 
   async get() {
     const result = await this.execute('select * from professor', QueryTypes.SELECT);
-    return result.map((item) => {
-      item.nome = item.nome.trim();
-      return item;
-    });
+    return result
   }
   async show(value) {
-    const result = await this.execute(`select * from aluno a where a.id = ${value} `, QueryTypes.SELECT);
-    return result.map((item) => {
-      item.nome = item.nome.trim();
-      return item;
-    });
+    const result = await this.execute(`select * from professor a where a.id = ${value} `, QueryTypes.SELECT);
+    return result;
   }
+  async create(nome, idade, cidade, uf, pais, materiaId) {
 
-  async create(nome, idade, turmaId, dataNascimento) {
-
-    const result = await this.execute(
-      `insert into aluno (nome, idade, turma_id, data_nascimento)
-            values ('${nome}','${idade}','${turmaId}','${dataNascimento}') returning *`, 
+    const result = await this.execute( 
+      `insert into professor (nome, idade, cidade, uf, pais, materia_id)
+            values ('${nome}',${idade},'${cidade}','${uf}','${pais}',${materiaId}) returning *`, 
       QueryTypes.INSERT
       );
 
       return result;
   }
+
+  //Parei aqui
   
   async update(value, nome, idade, status, turma_id, pcd, data_nascimento){
 
