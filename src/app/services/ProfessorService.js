@@ -28,27 +28,26 @@ export default class ProfessorService extends BaseServices {
 
   //Parei aqui
   
-  async update(value, nome, idade, status, turma_id, pcd, data_nascimento){
+  async update(id, nome, idade, cidade, uf, pais, materiaId){
 
     const result = await this.execute(
-      `update aluno
+      `update professor
       set nome='${nome}',
-      idade='${idade}',
-      status='${status}',
-      turma_id='${turma_id}',
-      pcd='${pcd}',
-      data_nascimento='${data_nascimento}'
+      idade=${idade},
+      cidade='${cidade}',
+      uf='${uf}',
+      pais='${pais}',
+      materia_id=${materiaId}
 
-      where id = ${value} `, QueryTypes.UPDATE);
+      where id = ${id} returning *`, QueryTypes.UPDATE);
 
     return result;
 
   }
 
   async delete(value) {
-    const result = await this.execute(`delete from aluno_telefone where aluno_id=${value}; 
-    delete from aluno_nota where aluno_id=${value};
-    delete from aluno where id=${value};`, QueryTypes.DELETE);
+    const result = await this.execute(`
+    delete from professor where id=${value};`, QueryTypes.DELETE);
   }
 
 }

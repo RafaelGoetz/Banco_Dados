@@ -26,12 +26,10 @@ class ProfessorController {
   
   async update(request, response) {
     const { id } = request.params;
-    const { nome, idade, status, turma_id, pcd, data_nascimento } = request.body;
-    response.json(await service.update(id, nome, idade, status, turma_id, pcd, data_nascimento))
-    
+    const { nome, idade, cidade, uf, pais, materiaId } = request.body;
+    response.json(await service.update(id, nome, idade, cidade, uf, pais, materiaId))  
   }
-
-
+  
   async delete(request, response) {
     const { id } = request.params;
     response.json(await service.delete(id)) 

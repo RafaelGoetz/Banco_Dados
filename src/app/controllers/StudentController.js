@@ -1,13 +1,15 @@
 import StudentService from '../services/StudentServices'
 import {Sequelize, QueryTypes } from "sequelize";
 import databaseConfig from "../../config/database";
+import User from '../models/User';
 
 const sequelize = new Sequelize(databaseConfig);
 const service = new StudentService();
 
 class StudentController {
   async index(request, response) {
-    response.json(await service.get())
+    return response.json(await User.findAll)
+    //response.json(await service.get())
   };
   async show(request, response){
     const { id } = request.params;
