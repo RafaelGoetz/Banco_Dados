@@ -32,6 +32,18 @@ class SchoolClass extends Model {
 
     return this;
   }
+    static associate(models) {
+    this.hasMany(models.Student, {
+      as: 'students',
+      foreingKey: 'school_class_id',
+    });
+    
+    this.belongsToMany(models.Teacher, {
+      as: 'teacher',
+      foreingKey: 'school_class_id',
+      through: 'teacher_school_classes',
+    })  
+  }
 }
 
 export default SchoolClass;

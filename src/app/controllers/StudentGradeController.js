@@ -1,47 +1,42 @@
-import StudentGradeService from '../services/StudentGradeServices'
-import {Sequelize, QueryTypes } from "sequelize";
-import databaseConfig from "../../config/database";
+import StudentGradeService from '../services/StudentGradeService';
 
-const sequelize = new Sequelize(databaseConfig);
 const service = new StudentGradeService();
 
 class StudentGradeController {
-
   async index(request, response) {
     const { studentId } = request.params;
-    return response.json(await service.get(studentId));
+    const result = await service.get(studentId);
+
+    return response.json(result);
   }
 
-  async show (request, response) {
+  async show(request, response) {
     const { studentId, gradeId } = request.params;
-    const result = await service.show(studentId, gradeId);
+    const result = await service.getById(studentId, gradeId);
 
-    return response.json(result)
-
+    return response.json(result);
   }
-  async store(request, response) {
 
+  async store(request, response) {
     const { studentId } = request.params;
     const { nota, descricao, materiaId } = request.body;
     const result = await service.create(studentId, nota, descricao, materiaId);
 
-    return response.json(result)
-
+    return response.json(result);
   }
- 
-  async update(request, response) {
 
+  async update(request, response) {
     const { studentId, gradeId } = request.params;
     const { nota, descricao, materiaId } = request.body;
     const result = await service.update(
-      studentId, 
-      gradeId,  
-      nota, 
-      descricao, 
-      materiaId);
+      studentId,
+      gradeId,
+      nota,
+      descricao,
+      materiaId
+    );
 
-    return response.json(result)
-
+    return response.json(result);
   }
 
   async delete(request, response) {
@@ -50,8 +45,6 @@ class StudentGradeController {
 
     return response.sendStatus(202);
   }
-
-  
-} 
+}
 
 export default new StudentGradeController();

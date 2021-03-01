@@ -24,6 +24,13 @@ class PhoneType extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.StudentPhone, {
+      as: 'students_phones',
+      foreignKey: 'type_id',
+    });
+  }
 }
 
 export default PhoneType;

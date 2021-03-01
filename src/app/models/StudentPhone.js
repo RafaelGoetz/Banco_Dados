@@ -40,6 +40,16 @@ class StudentPhone extends Model {
 
     return this;
   }
+  static associate(models) {
+    this.belongsTo(models.PhoneType, {
+      as: 'type',
+      foreignKey: 'type_id',
+    });
+    this.belongsTo(models.Student, {
+      as: 'student',
+      foreignKey: 'student_id',
+    });
+  }
 }
 
 export default StudentPhone;

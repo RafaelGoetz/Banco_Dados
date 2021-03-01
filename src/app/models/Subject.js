@@ -24,6 +24,16 @@ class Subject extends Model {
 
     return this;
   }
+  static associate(models){
+    this.hasMany(models.StudentGrade, {
+      as: 'students_grades',
+      foreignKey: 'subject_id',
+    })
+    this.hasMany(models.Teacher, {
+      as: 'teachers',
+      foreignKey: 'subject_id',
+    })
+  }
 }
 
 export default Subject;

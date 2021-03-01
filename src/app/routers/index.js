@@ -1,6 +1,5 @@
 import student from './student';
 import studentGrade from './studentGrade';
-import professor from './professor';
+import teacher from './teacher';
 
-
-export default [student, studentGrade, professor];
+export default [student, studentGrade, teacher];

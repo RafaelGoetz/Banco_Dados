@@ -50,6 +50,23 @@ class Student extends Model {
 
     return this;
   }
+  static associate(models) {
+    this.belongsTo(models.SchoolClass, {
+      as: 'school_class',
+      foreignKey: 'school_class_id',
+    });
+
+    this.hasMany(models.StudentGrade, {
+      as: 'students_grades',
+      foreignKey: 'student_id',
+    });
+
+    this.hasMany(models.StudentPhone, {
+      as: 'students_phones',
+      foreignKey: 'student_id',
+    });
+    
+  }
 }
 
 export default Student;

@@ -44,6 +44,16 @@ class StudentGrade extends Model {
 
     return this;
   }
+  static associate(models) {
+    this.belongsTo(models.Subject, {
+      as: 'subject',
+      foreignKey: 'subject_id',
+    });
+    this.belongsTo(models.Student, {
+      as: 'student',
+      foreignKey: 'student_id',
+    });
+  }
 }
 
 export default StudentGrade;
