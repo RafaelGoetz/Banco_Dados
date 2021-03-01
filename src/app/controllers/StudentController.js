@@ -8,7 +8,7 @@ const service = new StudentService();
 
 class StudentController {
   async index(request, response) {
-    return response.json(await User.findAll)
+    return response.json(await User.findAll())
     //response.json(await service.get())
   };
   async show(request, response){
