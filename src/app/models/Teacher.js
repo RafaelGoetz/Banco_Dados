@@ -1,9 +1,8 @@
-'use strict';
+import Sequelize, { Model } from 'sequelize';
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable(
-      'professor',
+class Teacher extends Model {
+  static init(sequelize) {
+    super.init(
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
@@ -11,51 +10,44 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        nome: {
+        name: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        idade: {
+        age: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
         },
-        cidade: {
+        city: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        uf: {
-          type: Sequelize.DataTypes.STRING(2),
-          allowNull: false,
-        },
-        pais: {
+        state: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        materia_id: {
+        country: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: false,
+        },
+        subject_id: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: 'materia', 
+            model: 'subjects',
             key: 'id',
-          }
-        },
-        created_at: {
-          type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
-          allowNull: false,
-        },
-        updated_at: {
-          type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
-          allowNull: false,
+          },
         },
       },
       {
+        sequelize,
         schema: 'school',
+        tableName: 'teachers',
       }
     );
-  },
-  down: async queryInterface => {
-    await queryInterface.dropTable('professor');
-  },
-};
+
+    return this;
+  }
+}
+
+export default Teacher;

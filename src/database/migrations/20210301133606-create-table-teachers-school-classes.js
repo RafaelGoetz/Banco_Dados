@@ -1,28 +1,32 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'aluno_telefone_tipo',
+      'teachers_school_classes',
       {
-        id: {
+        teacher_id: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
+          references: {
+            model: 'teachers',
+            key: 'id',
+          },
         },
-        nome: {
-          type: Sequelize.DataTypes.STRING,
+        school_class_id: {
+          type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
+          primaryKey: true,
+          references: {
+            model: 'school_classes',
+            key: 'id',
+          },
         },
         created_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
         updated_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
       },
@@ -31,7 +35,11 @@ module.exports = {
       }
     );
   },
+
   down: async queryInterface => {
-    await queryInterface.dropTable('aluno_telefone_tipo');
+    await queryInterface.dropTable({
+      tableName: 'teachers_school_classes',
+      schema: 'school',
+    });
   },
 };

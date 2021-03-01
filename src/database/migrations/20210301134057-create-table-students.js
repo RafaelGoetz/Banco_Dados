@@ -1,9 +1,7 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'turma',
+      'students',
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
@@ -11,26 +9,42 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        codigo: {
+        name: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: false,
+        },
+        age: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
         },
-        data_inicio: {
-          type: Sequelize.DataTypes.DATEONLY,
+        status: {
+          type: Sequelize.DataTypes.BOOLEAN,
           allowNull: false,
+          defaultValue: true,
         },
-        data_final: {
-          type: Sequelize.DataTypes.DATEONLY,
+        school_class_id: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: 'school_classes',
+            key: 'id',
+          },
+        },
+        pwd: {
+          type: Sequelize.DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        birthdate: {
+          type: Sequelize.DataTypes.DATE,
           allowNull: false,
         },
         created_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
         updated_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
       },
@@ -39,7 +53,11 @@ module.exports = {
       }
     );
   },
+
   down: async queryInterface => {
-    await queryInterface.dropTable('turma');
+    await queryInterface.dropTable({
+      tableName: 'students',
+      schema: 'school',
+    });
   },
 };

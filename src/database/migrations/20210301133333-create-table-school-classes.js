@@ -1,9 +1,7 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'aluno_telefone',
+      'school_classes',
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
@@ -11,34 +9,24 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        numero: {
-          type: Sequelize.DataTypes.INTEGER,
+        code: {
+          type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        aluno_id: {
-          type: Sequelize.DataTypes.INTEGER,
+        started_at: {
+          type: Sequelize.DataTypes.DATE,
           allowNull: false,
-          references: {
-            model: 'aluno', 
-            key: 'id',
-          }
         },
-        tipo_id: {
-          type: Sequelize.DataTypes.INTEGER,
+        finished_at: {
+          type: Sequelize.DataTypes.DATE,
           allowNull: false,
-          references: {
-            model: 'aluno_telefone_tipo', 
-            key: 'id',
-          }
         },
         created_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
         updated_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
       },
@@ -47,7 +35,11 @@ module.exports = {
       }
     );
   },
+
   down: async queryInterface => {
-    await queryInterface.dropTable('aluno_telefone');
+    await queryInterface.dropTable({
+      tableName: 'school_classes',
+      schema: 'school',
+    });
   },
 };

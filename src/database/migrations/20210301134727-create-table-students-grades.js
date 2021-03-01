@@ -1,9 +1,7 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
-      'aluno_nota',
+      'students_grades',
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
@@ -11,38 +9,36 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        nota: {
+        grade: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
         },
-        descricao: {
+        description: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        aluno_id: {
+        student_id: {
           type: Sequelize.DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
           references: {
-            model: 'aluno', 
+            model: 'students',
             key: 'id',
-          }
+          },
         },
-        materia_id: {
+        subject_id: {
           type: Sequelize.DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
           references: {
-            model: 'materia', 
+            model: 'subjects',
             key: 'id',
-          }
+          },
         },
         created_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
         updated_at: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
       },
@@ -51,7 +47,11 @@ module.exports = {
       }
     );
   },
+
   down: async queryInterface => {
-    await queryInterface.dropTable('aluno_telefone');
+    await queryInterface.dropTable({
+      tableName: 'students_grades',
+      schema: 'school',
+    });
   },
 };

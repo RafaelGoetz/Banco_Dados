@@ -1,8 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 
-class User extends Model {
-  static init(sequelize){
-    super.init( {
+class PhoneType extends Model {
+  static init(sequelize) {
+    super.init(
+      {
         id: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
@@ -13,15 +14,16 @@ class User extends Model {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-    },
-    {
-      sequelize,
-      schema: 'sequelize'
-    }
+      },
+      {
+        sequelize,
+        schema: 'school',
+        tableName: 'phone_types',
+      }
     );
 
     return this;
   }
 }
 
-export default User;
+export default PhoneType;

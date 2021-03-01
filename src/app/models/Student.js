@@ -1,7 +1,8 @@
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable(
-      'aluno',
+import Sequelize, { Model } from 'sequelize';
+
+class Student extends Model {
+  static init(sequelize) {
+    super.init(
       {
         id: {
           type: Sequelize.DataTypes.INTEGER,
@@ -9,53 +10,46 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        nome: {
+        name: {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
-        idade: {
+        age: {
           type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
         },
         status: {
           type: Sequelize.DataTypes.BOOLEAN,
+          allowNull: false,
           defaultValue: true,
-          allowNull: false,
         },
-        turma_id: {
+        school_class_id: {
           type: Sequelize.DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
           references: {
-            model: 'turma', 
+            model: 'school_classes',
             key: 'id',
-          }
+          },
         },
-        pcd: {
+        pwd: {
           type: Sequelize.DataTypes.BOOLEAN,
+          allowNull: false,
           defaultValue: false,
-          allowNull: false,
         },
-        data_nascimento: {
-          type: Sequelize.DataTypes.DATEONLY,
-          allowNull: false,
-        },
-        created_at: {
+        birthdate: {
           type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
-          allowNull: false,
-        },
-        updated_at: {
-          type: Sequelize.DataTypes.DATE,
-          defaultValue: new Date(),
           allowNull: false,
         },
       },
       {
+        sequelize,
         schema: 'school',
+        tableName: 'students',
       }
     );
-  },
-  down: async queryInterface => {
-    await queryInterface.dropTable('aluno');
-  },
-};
+
+    return this;
+  }
+}
+
+export default Student;
