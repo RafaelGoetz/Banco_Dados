@@ -7,9 +7,6 @@ routes.get('/student/:studentId/grade', StudentGradeController.index);
 routes.get('/student/:studentId/grade/:gradeId', StudentGradeController.show);
 routes.post('/student/:studentId/grade', StudentGradeController.store);
 routes.put('/student/:studentId/grade/:gradeId', StudentGradeController.update);
-routes.delete(
-  '/student/:studentId/grade/:gradeId',
-  StudentGradeController.delete
-);
+routes.delete('/student/:studentId/grade/:gradeId', StudentGradeController.delete);
 
 export default routes;

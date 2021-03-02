@@ -1,39 +1,64 @@
-import TeacherService from '../services/TeacherService';
-
-const service = new TeacherService();
+import Teacher from '../models/Teacher';
 
 class TeacherController {
   async index(request, response) {
-    return response.json(await service.get());
-  }
+    const result = await Teacher.findAll();
 
-  async show(request, response) {
+    return response.json(result);
+  };
+
+  async show(request, response){
     const { id } = request.params;
+    const teacher = await Teacher.findByPk(id);
 
-    return response.json(await service.getById(id));
+    return response.json(teacher)
   }
 
   async store(request, response) {
-    const { nome, idade, cidade, uf, materiaId } = request.body;
-    const result = await service.create(nome, idade, cidade, uf, materiaId);
+    const { name, age, city, state, country, subjectId } = request.body;
 
-    return response.json(result);
+    const teacher = await Teacher.create({
+      name, 
+      age, 
+      city, 
+      state, 
+      country, 
+      subject_id: subjectId,
+    })
+
+    response.json(teacher)
   }
 
+  
   async update(request, response) {
     const { id } = request.params;
-    const { nome, idade, cidade, uf, materiaId } = request.body;
-    const result = await service.update(id, nome, idade, cidade, uf, materiaId);
+    const { name, age, city, state, country, subjectId } = request.body;
 
-    return response.json(result);
+    const teacher = await Teacher.update(
+      {name, age, city, state, country, subjectId},
+      { 
+        where: {
+        id,
+      },
+      returning: true,
+    });
+
+    response.json(teacher)  
   }
-
+  
   async delete(request, response) {
     const { id } = request.params;
-    await service.delete(id);
+
+    await Teacher.destroy({
+      where: {
+        id,
+      }
+    })
 
     return response.sendStatus(202);
   }
-}
+
+  
+} 
 
 export default new TeacherController();

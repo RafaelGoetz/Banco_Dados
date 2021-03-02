@@ -1,17 +1,57 @@
-import StudentService from '../services/StudentService';
 import Student from '../models/Student';
-
-const service = new StudentService();
+import { Op } from 'sequelize';
 
 class StudentController {
   async index(request, response) {
-    return response.json(await service.get());
+    const result = await Student.findAll();
+    /*const result = await Student.findAll({
+      attributes: [ 'name', 'age' ],
+      order: [
+        ['name', 'DESC']
+      ]
+    })*/  
+
+   /*const result = await Student.findAll({
+      attributes: ['name', 'age'],
+      where: {
+        [Op.and]: [{ status: true}, {pwd: false}]
+      },
+      order: [
+        ['name', 'DESC'],
+        ['age', 'ASC'],
+      ]
+    })*/
+
+    /*const result = await Student.findAll({
+      include: [
+        {
+          model: StudentGrade,
+          as: 'student_grades',
+          attributes: ['description', 'grade'],
+        },
+      ],
+    });*/
+
+    /*const result = await Student.findAndCountAll({
+      attributes: ['name', 'age'],
+    });*/
+
+    return response.json(result);
+
   }
 
   async show(request, response) {
     const { id } = request.params;
+    const user = await Student.findByPk(id);
 
-    return response.json(await service.getById(id));
+
+  /*const user = await Student.findOne({
+    where: {
+      id,
+    }
+  })*/
+
+    return response.json(user);
   }
 
   async store(request, response) {
@@ -40,21 +80,42 @@ class StudentController {
 
   async update(request, response) {
     const { id } = request.params;
-    const { nome, idade, turmaId, dataNascimento } = request.body;
-    const result = await service.update(
-      id,
-      nome,
-      idade,
-      turmaId,
-      dataNascimento
-    );
+    const { name, age, schoolClassId, birthdate } = request.body;
 
-    return response.json(result);
+    /*const user = await Student.findByPk(id);
+
+    user.name = name;
+    user.age = age;
+    user.school_class_id = schoolClassId;
+    user.birthdate = birthdate;
+
+    user.save()*/
+
+    const user = await Student.update(
+      {name, age, schoolClassId, birthdate},
+      {
+        where: {
+          id,
+        },
+        returning: true,
+      }
+      );
+
+
+
+    return response.json(user);
   }
 
   async delete(request, response) {
     const { id } = request.params;
-    await service.delete(id);
+    /*const user = await Student.findByPk(id);
+    await user.destroy()*/
+
+    await Student.destroy({
+      where: {
+        id,
+      }
+    })
 
     return response.sendStatus(202);
   }

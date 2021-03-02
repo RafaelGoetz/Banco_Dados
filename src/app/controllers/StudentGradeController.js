@@ -1,11 +1,8 @@
-import StudentGradeService from '../services/StudentGradeService';
-
-const service = new StudentGradeService();
+import StudentGrade from '../models/StudentGrade';
 
 class StudentGradeController {
   async index(request, response) {
-    const { studentId } = request.params;
-    const result = await service.get(studentId);
+    const result = await StudentGrade.findAll();
 
     return response.json(result);
   }
@@ -18,11 +15,16 @@ class StudentGradeController {
   }
 
   async store(request, response) {
-    const { studentId } = request.params;
-    const { nota, descricao, materiaId } = request.body;
-    const result = await service.create(studentId, nota, descricao, materiaId);
+    const { grade, description, studentId, subjectId } = request.body;
 
-    return response.json(result);
+    const grades = await StudentGrade.create({
+      grade,
+      description, 
+      student_id: studentId, 
+      subject_id: subjectId
+    })
+
+    response.json(grades)
   }
 
   async update(request, response) {
